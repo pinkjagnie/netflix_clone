@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { signOut } from "firebase/auth";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../utils/firebase-config";
 
 import { FaPowerOff, FaSearch } from "react-icons/fa";
@@ -13,12 +14,18 @@ const Navbar = ({isScrolled}) => {
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);
 
+  const navigate = useNavigate();
+
   const links = [
     { name: "Home", link: "/" },
     { name: "TV Shows", link: "/tv" },
     { name: "Movies", link: "/movies" },
     { name: "My List", link: "/mylist" },
   ];
+
+  onAuthStateChanged(firebaseAuth, (currentUser) => {
+    if (!currentUser) navigate("/login");
+  });
 
   return(
     <Container>
