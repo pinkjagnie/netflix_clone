@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import Navbar from "../components/Navbar";
+import Slider from "../components/Slider";
 
 import { getGenres, fetchMovies } from "../store";
 
@@ -16,7 +17,7 @@ import styled from "styled-components";
 
 const Netflix = () => {
   const [isScrolled, setIsScrolled] = useState(false);
- // const movies = useSelector((state) => state.netflix.movies);
+ const movies = useSelector((state) => state.netflix.movies);
   const genres = useSelector((state) => state.netflix.genres);
   const genresLoaded = useSelector((state) => state.netflix.genresLoaded);
 
@@ -57,6 +58,7 @@ const Netflix = () => {
           </div>
         </div>
       </div>
+      <Slider movies={movies}/>
     </Container>
   )
 };
