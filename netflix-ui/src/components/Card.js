@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
+import axios from "axios";
+
 import { onAuthStateChanged } from "firebase/auth";
 import { firebaseAuth } from "../utils/firebase-config";
+
+import { removeMovieFromLiked } from "../store";
 
 import { IoPlayCircleSharp } from "react-icons/io5";
 import { AiOutlinePlus } from "react-icons/ai";
@@ -28,6 +32,17 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
     } else navigate("/login");
   });
 
+  const addToList = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/user/add", {
+        email,
+        data: movieData,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return(
     <Container onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <img src={`https://image.tmdb.org/t/p/w500${movieData.image}`} alt="card" onClick={() => navigate("/player")} />
@@ -47,9 +62,9 @@ export default React.memo(function Card({ index, movieData, isLiked = false }) {
                 <RiThumbUpFill title="Like" />
                 <RiThumbDownFill title="Dislike" />
                 {isLiked ? (
-                  <BsCheck title="Remove from List" />
+                  <BsCheck title="Remove from List" onClick={() => dispatch(removeMovieFromLiked({ movieId: movieData.id, email }))} />
                 ) : (
-                  <AiOutlinePlus title="Add to my list" />
+                  <AiOutlinePlus title="Add to my list" onClick={addToList} />
                 )}
               </div>
               <div className="info">
