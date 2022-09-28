@@ -93,3 +93,5 @@ export const store = configureStore({
     netflix: NetflixSlice.reducer,
   },
 });
+
+export const { setGenres, setMovies } = NetflixSlice.actions;
