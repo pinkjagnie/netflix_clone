@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import Navbar from "../components/Navbar";
+
+import { getGenres } from "../store";
 
 import backgroundImg from "../assets/home.jpg";
 import movieLogo from "../assets/homeTitle.webp";
@@ -15,6 +18,12 @@ const Netflix = () => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getGenres())
+  }, []);
 
   window.onscroll = () => {
     setIsScrolled(window.pageYOffset === 0 ? false : true);
