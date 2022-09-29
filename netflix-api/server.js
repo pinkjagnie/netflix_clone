@@ -1,3 +1,5 @@
+const config = require("./config.json");
+
 const express = require("express");
 const cors = require("cors");
 const userRoutes = require("./routes/UserRoutes");
@@ -8,8 +10,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+const url = config.urlMongo;
+
 mongoose
-  .connect("mongodb://localhost:27017/netflix", {
+  .connect(url, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
